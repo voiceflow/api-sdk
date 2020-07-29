@@ -2,7 +2,7 @@ import * as s from 'superstruct';
 
 import { SDiagramID, SIntent, SNode, SNodeID, SSkillID, SSlot, SVariable } from './shared';
 
-export const SProgramID = s.number();
+export const SProgramID = s.string();
 export type ProgramID = s.StructType<typeof SProgramID>;
 
 export const SProgramCommandMapping = s.object({
