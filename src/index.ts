@@ -5,6 +5,7 @@ import Client from '@/client';
 export type { default as Client } from '@/client';
 
 export * from '@/models';
+export { UnknownRecord, ArrayElement, Flatten } from '@/types';
 
 export const SOptions = s.object({
   clientKey: s.string(),
