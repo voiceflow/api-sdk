@@ -3,9 +3,8 @@ import * as s from 'superstruct';
 import Client from '@/client';
 
 export type { default as Client } from '@/client';
-
+export type { UnknownRecord, ArrayElement, Flatten } from '@/types';
 export * from '@/models';
-export { UnknownRecord, ArrayElement, Flatten } from '@/types';
 
 export const SOptions = s.object({
   clientKey: s.string(),
