@@ -12,11 +12,11 @@ export const SProgramCommandMapping = s.object({
 export type ProgramCommandMapping = s.StructType<typeof SProgramCommandMapping>;
 
 export const SProgramCommand = s.object({
-  diagram_id: SDiagramID,
   intent: SIntent,
   mappings: s.array(SProgramCommandMapping),
+  diagram_id: SDiagramID,
 });
-export type SProgramCommand = s.StructType<typeof SProgramCommand>;
+export type ProgramCommand = s.StructType<typeof SProgramCommand>;
 
 export const SProgram = s.object({
   id: SProgramID,
