@@ -1,7 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { UnknownRecord } from '@/types';
-
 type FetchOptions = {
   clientKey: string;
   apiEndpoint: string;

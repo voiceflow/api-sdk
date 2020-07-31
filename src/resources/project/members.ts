@@ -2,7 +2,6 @@ import * as s from 'superstruct';
 
 import type Fetch from '@/fetch';
 import { BasePlatformData, CreatorID, Member, ProjectID, SMember, SProjectID } from '@/models';
-import { UnknownRecord } from '@/types';
 
 import BaseResource from '../base';
 
