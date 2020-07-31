@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
+import { UnknownRecord } from '@/types';
+
 type FetchOptions = {
   clientKey: string;
   apiEndpoint: string;
@@ -41,6 +43,23 @@ class Fetch {
 
   public async patch<T extends unknown>(url: string, body?: unknown): Promise<FetchReturnType<T>> {
     const { data, status } = await this.axios.patch<T>(url, body);
+
+    return { data, status };
+  }
+
+  /**
+   * Updates the data by the provided path and value, variables can be used in the path
+   * @example
+   * // return Promise<number>
+   * fetch.granularPatch<number>('/endpoint', '[$creatorID].platformData.vendors[$vendorID].skillID', 5678, { vendorID: "234", creatorID: "123" })
+   */
+  public async granularPatch<T extends unknown>(
+    url: string,
+    path: string,
+    value: T,
+    pathVariables?: Record<string, string | number>
+  ): Promise<FetchReturnType<T>> {
+    const { data, status } = await this.axios.patch<T>(url, { path, value, pathVariables });
 
     return { data, status };
   }

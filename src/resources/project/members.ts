@@ -2,6 +2,7 @@ import * as s from 'superstruct';
 
 import type Fetch from '@/fetch';
 import { BasePlatformData, CreatorID, Member, ProjectID, SMember, SProjectID } from '@/models';
+import { UnknownRecord } from '@/types';
 
 import BaseResource from '../base';
 
@@ -55,11 +56,24 @@ class MembersResource extends BaseResource<typeof SMember['schema'], ModelIDKey>
     return data;
   }
 
-  public async updateCurrentUser<P extends BasePlatformData>(projectID: ProjectID, body: Partial<Member<P>>): Promise<Partial<Member<P>>> {
+  public async updateCurrentUser<P extends BasePlatformData>(projectID: ProjectID, body: Omit<Member<P>, ModelIDKey>): Promise<Member<P>> {
     s.assert(projectID, SProjectID);
-    this._assertPatchBody(body);
+    this._assertPutAndPostBody(body);
 
-    const { data } = await this.fetch.patch<Member<P>>(this._getCRUDEndpoint(projectID), body);
+    const { data } = await this.fetch.put<Member<P>>(this._getCRUDEndpoint(projectID), body);
+
+    return data;
+  }
+
+  public async granularUpdateCurrentUser<P>(
+    projectID: ProjectID,
+    path: string,
+    value: P,
+    pathVariables?: Record<string, string | number>
+  ): Promise<P> {
+    s.assert(projectID, SProjectID);
+
+    const { data } = await this.fetch.granularPatch<P>(this._getCRUDEndpoint(projectID), path, value, pathVariables);
 
     return data;
   }
