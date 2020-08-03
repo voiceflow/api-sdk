@@ -17,5 +17,5 @@ export const SDiagram = s.object({
 });
 
 export type Diagram<N extends DiagramNode = DiagramNode> = Omit<s.StructType<typeof SDiagram>, 'nodes'> & {
-  nodes: N[];
+  nodes: Record<string, N>;
 };

@@ -1,5 +1,4 @@
 import * as s from 'superstruct';
-import { optional } from 'superstruct';
 
 import { UnknownRecord } from '@/types';
 import { dynamicObject } from '@/utils';
