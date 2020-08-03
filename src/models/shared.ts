@@ -1,4 +1,5 @@
 import * as s from 'superstruct';
+import { optional } from 'superstruct';
 
 import { UnknownRecord } from '@/types';
 import { dynamicObject } from '@/utils';
@@ -77,7 +78,12 @@ export type Node<D extends UnknownRecord = UnknownRecord> = Pick<s.StructType<ty
 export const SCoordPoint = s.number();
 export type CoordPoint = s.StructType<typeof SCoordPoint>;
 
-export const SDiagramNodeData = dynamicObject({ name: SName, color: s.string(), ports: s.optional(s.array(SPort)) });
+export const SDiagramNodeData = dynamicObject({
+  name: s.optional(SName),
+  color: s.optional(s.string()),
+  steps: s.optional(s.array(SNodeID)),
+  ports: s.optional(s.array(SPort)),
+});
 export type DiagramNodeData<D extends UnknownRecord = UnknownRecord> = Pick<s.StructType<typeof SDiagramNodeData>, 'name' | 'color'> & D;
 
 export const SDiagramNode = s.object({
