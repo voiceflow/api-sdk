@@ -68,12 +68,6 @@ export type PortType = s.StructType<typeof SPortType>;
 export const SPort = s.object({ type: SPortType, target: s.nullable(SNodeID), data: s.optional(s.object()) });
 export type Port<D extends UnknownRecord = UnknownRecord> = Omit<s.StructType<typeof SPort>, 'data'> & { data?: D };
 
-export const SStepType = s.string();
-export type StepType = s.StructType<typeof SStepType>;
-
-export const SStep = s.object({ type: SStepType, data: s.object(), ports: s.array(SPort), nodeID: SNodeID });
-export type Step<D extends UnknownRecord = UnknownRecord> = Omit<s.StructType<typeof SStep>, 'data'> & { data: D };
-
 export const SNodeType = s.string();
 export type NodeType = s.StructType<typeof SNodeID>;
 
@@ -83,13 +77,13 @@ export type Node<D extends UnknownRecord = UnknownRecord> = Pick<s.StructType<ty
 export const SCoordPoint = s.number();
 export type CoordPoint = s.StructType<typeof SCoordPoint>;
 
-export const SDiagramNodeData = dynamicObject({ name: SName, color: s.string() });
+export const SDiagramNodeData = dynamicObject({ name: SName, color: s.string(), ports: s.optional(s.array(SPort)) });
 export type DiagramNodeData<D extends UnknownRecord = UnknownRecord> = Pick<s.StructType<typeof SDiagramNodeData>, 'name' | 'color'> & D;
 
 export const SDiagramNode = s.object({
   nodeID: SNodeID,
-  x: SCoordPoint,
-  y: SCoordPoint,
+  x: s.optional(SCoordPoint),
+  y: s.optional(SCoordPoint),
   type: SNodeType,
   data: SDiagramNodeData,
 });
