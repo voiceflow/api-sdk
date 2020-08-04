@@ -83,6 +83,7 @@ export const SBlockData = dynamicObject({
   steps: s.optional(s.array(SNodeID)),
 });
 export type BlockData<D extends UnknownRecord = UnknownRecord> = s.StructType<typeof SBlockData> & D;
+
 export const SBlock = s.object({
   nodeID: SNodeID,
   x: SCoordPoint,
@@ -98,6 +99,7 @@ export const SStepData = dynamicObject({
   ports: s.array(SPort),
 });
 export type StepData<D extends UnknownRecord = UnknownRecord> = s.StructType<typeof SStepData> & D;
+
 export const SStep = s.object({
   nodeID: SNodeID,
   type: SNodeType,
@@ -108,7 +110,6 @@ export type Step<D extends UnknownRecord = UnknownRecord> = Omit<s.StructType<ty
 };
 
 export const SDiagramNode = s.union([SBlock, SStep]);
-
 export type DiagramNode<D extends UnknownRecord = UnknownRecord> = Step<D> | Block<D>;
 
 export const SBasePlatformData = s.object();
