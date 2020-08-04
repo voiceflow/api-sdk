@@ -88,6 +88,7 @@ export const SBlock = s.object({
     steps: s.array(SNodeID),
   }),
 });
+export type Block = s.StructType<typeof SBlock>;
 
 export const SStep = s.object({
   nodeID: SNodeID,
