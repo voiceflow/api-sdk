@@ -77,35 +77,39 @@ export type Node<D extends UnknownRecord = UnknownRecord> = Pick<s.StructType<ty
 export const SCoordPoint = s.number();
 export type CoordPoint = s.StructType<typeof SCoordPoint>;
 
+export const SBlockData = dynamicObject({
+  name: s.optional(SName),
+  color: s.optional(s.string()),
+  steps: s.optional(s.array(SNodeID)),
+});
+export type BlockData<D extends UnknownRecord = UnknownRecord> = s.StructType<typeof SBlockData> & D;
 export const SBlock = s.object({
   nodeID: SNodeID,
   x: SCoordPoint,
   y: SCoordPoint,
   type: SNodeType,
-  data: dynamicObject({
-    name: SName,
-    color: s.string(),
-    steps: s.array(SNodeID),
-  }),
+  data: SBlockData,
 });
-export type Block = s.StructType<typeof SBlock>;
+export type Block<D extends UnknownRecord = UnknownRecord> = Omit<s.StructType<typeof SBlock>, 'data'> & {
+  data: BlockData<D>;
+};
 
+export const SStepData = dynamicObject({
+  ports: s.array(SPort),
+});
+export type StepData<D extends UnknownRecord = UnknownRecord> = s.StructType<typeof SStepData> & D;
 export const SStep = s.object({
   nodeID: SNodeID,
-  x: SCoordPoint,
-  y: SCoordPoint,
   type: SNodeType,
-  data: dynamicObject({
-    ports: s.array(SPort),
-  }),
+  data: SStepData,
 });
 export type Step<D extends UnknownRecord = UnknownRecord> = Omit<s.StructType<typeof SStep>, 'data'> & {
-  data: s.StructType<typeof SStep>['data'] & D;
+  data: StepData<D>;
 };
 
 export const SDiagramNode = s.union([SBlock, SStep]);
 
-export type DiagramNode = s.StructType<typeof SDiagramNode>;
+export type DiagramNode<D extends UnknownRecord = UnknownRecord> = Step<D> | Block<D>;
 
 export const SBasePlatformData = s.object();
 export type BasePlatformData = s.StructType<typeof SBasePlatformData>;
