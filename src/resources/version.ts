@@ -1,6 +1,6 @@
 import * as s from 'superstruct';
 
-import type Fetch from '@/fetch';
+import Fetch, { PathVariables } from '@/fetch';
 import { Diagram, Program, SVersion, Version, VersionID, VersionPlatformData } from '@/models';
 
 import CrudResource from './crud';
@@ -65,6 +65,14 @@ class VersionResource extends CrudResource<typeof SVersion['schema'], ModelKey, 
     s.assert(body, SVersion.schema.platformData.schema.publishing);
 
     const { data } = await this.fetch.put<P>(`${this._getCRUDEndpoint(id)}/publishing`, body);
+
+    return data;
+  }
+
+  public async platformDataUpdate<P extends VersionPlatformData>(id: VersionID, path: string, value: P, pathVariables?: PathVariables): Promise<P> {
+    this._assertModelID(id);
+
+    const { data } = await this.fetch.granularPatch<P>(`${this._getCRUDEndpoint(id)}/platform/update`, path, value, pathVariables);
 
     return data;
   }
