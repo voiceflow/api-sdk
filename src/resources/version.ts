@@ -44,35 +44,33 @@ class VersionResource extends CrudResource<typeof SVersion['schema'], ModelKey, 
 
   public async updatePlatformData<P extends VersionPlatformData>(id: VersionID, body: Partial<P>): Promise<Partial<P>> {
     this._assertModelID(id);
-    s.assert(body, this._partialPlatformData);
+    // s.assert(body, this._partialPlatformData);
 
     const { data } = await this.fetch.patch<P>(`${this._getCRUDEndpoint(id)}/platform`, body);
 
     return data;
   }
 
-  public async updatePlatformDataSettings<P extends VersionPlatformData['settings']>(id: VersionID, body: Partial<P>): Promise<Partial<P>> {
+  public async platformDataAdd<P>(id: VersionID, path: string, value: P, pathVariables?: PathVariables): Promise<P> {
     this._assertModelID(id);
-    s.assert(body, SVersion.schema.platformData.schema.settings);
 
-    const { data } = await this.fetch.patch<P>(`${this._getCRUDEndpoint(id)}/settings`, body);
+    const { data } = await this.fetch.granularPatch<P>(`${this._getCRUDEndpoint(id)}/platform/add`, path, value, pathVariables);
 
     return data;
   }
 
-  public async updatePlatformDataPublishing<P extends VersionPlatformData['publishing']>(id: VersionID, body: P): Promise<P> {
-    this._assertModelID(id);
-    s.assert(body, SVersion.schema.platformData.schema.publishing);
-
-    const { data } = await this.fetch.put<P>(`${this._getCRUDEndpoint(id)}/publishing`, body);
-
-    return data;
-  }
-
-  public async platformDataUpdate<P extends VersionPlatformData>(id: VersionID, path: string, value: P, pathVariables?: PathVariables): Promise<P> {
+  public async platformDataUpdate<P>(id: VersionID, path: string, value: P, pathVariables?: PathVariables): Promise<P> {
     this._assertModelID(id);
 
     const { data } = await this.fetch.granularPatch<P>(`${this._getCRUDEndpoint(id)}/platform/update`, path, value, pathVariables);
+
+    return data;
+  }
+
+  public async platformDataRemove<P>(id: VersionID, path: string, pathVariables?: PathVariables): Promise<P> {
+    this._assertModelID(id);
+
+    const { data } = await this.fetch.granularPatch<P>(`${this._getCRUDEndpoint(id)}/platform/remove`, path, undefined, pathVariables);
 
     return data;
   }
