@@ -1,6 +1,6 @@
 import * as s from 'superstruct';
 
-import Fetch, { PathVariables } from '@/fetch';
+import Fetch from '@/fetch';
 import { Diagram, Program, SVersion, Version, VersionID, VersionPlatformData } from '@/models';
 
 import CrudResource from './crud';
@@ -51,26 +51,20 @@ class VersionResource extends CrudResource<typeof SVersion['schema'], ModelKey, 
     return data;
   }
 
-  public async platformDataAdd<P>(id: VersionID, path: string, value: P, pathVariables?: PathVariables): Promise<P> {
+  public async updatePlatformDataSettings<P extends VersionPlatformData['settings']>(id: VersionID, body: Partial<P>): Promise<Partial<P>> {
     this._assertModelID(id);
+    s.assert(body, SVersion.schema.platformData.schema.settings);
 
-    const { data } = await this.fetch.granularPatch<P>(`${this._getCRUDEndpoint(id)}/platform/add`, path, value, pathVariables);
+    const { data } = await this.fetch.patch<P>(`${this._getCRUDEndpoint(id)}/platform`, body, { path: 'settings' });
 
     return data;
   }
 
-  public async platformDataUpdate<P>(id: VersionID, path: string, value: P, pathVariables?: PathVariables): Promise<P> {
+  public async updatePlatformDataPublishing<P extends VersionPlatformData['publishing']>(id: VersionID, body: P): Promise<P> {
     this._assertModelID(id);
+    s.assert(body, SVersion.schema.platformData.schema.publishing);
 
-    const { data } = await this.fetch.granularPatch<P>(`${this._getCRUDEndpoint(id)}/platform/update`, path, value, pathVariables);
-
-    return data;
-  }
-
-  public async platformDataRemove<P>(id: VersionID, path: string, pathVariables?: PathVariables): Promise<P> {
-    this._assertModelID(id);
-
-    const { data } = await this.fetch.granularPatch<P>(`${this._getCRUDEndpoint(id)}/platform/remove`, path, undefined, pathVariables);
+    const { data } = await this.fetch.patch<P>(`${this._getCRUDEndpoint(id)}/platform`, body, { path: 'publishing' });
 
     return data;
   }
