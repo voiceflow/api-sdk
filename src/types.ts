@@ -15,3 +15,8 @@ export type RequiredKeys<T> = { [K in keyof T]: undefined extends T[K] ? never :
 export type OptionalizeObject<T> = Flatten<{ [K in RequiredKeys<T>]: T[K] } & { [K in OptionalKeys<T>]?: T[K] }>;
 
 export type SchemeType<T extends BaseSchema> = OptionalizeObject<{ [K in keyof T]: s.StructType<T[K]> }>;
+
+export type PutPostStruct<S extends BaseSchema, K extends keyof SchemeType<S>, E extends keyof SchemeType<S>> = s.Struct<
+  SchemeType<Omit<S, K | E | 'created'>>,
+  Omit<S, K | E | 'created'>
+>;

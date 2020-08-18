@@ -2,7 +2,7 @@ import type { BaseSchema, SchemeType } from '@/types';
 
 import BaseResource from './base';
 
-class CrudResource<S extends BaseSchema, K extends keyof SchemeType<S>> extends BaseResource<S, K> {
+class CrudResource<S extends BaseSchema, K extends keyof SchemeType<S>, E extends keyof SchemeType<S>> extends BaseResource<S, K, E> {
   protected _getCRUDEndpoint(id?: SchemeType<S>[K]): string {
     return id ? `${this._getEndpoint()}/${id}` : this._getEndpoint();
   }
@@ -29,7 +29,7 @@ class CrudResource<S extends BaseSchema, K extends keyof SchemeType<S>> extends 
     return data;
   }
 
-  protected async _post<T extends SchemeType<S>>(body: Omit<T, K | 'created'>): Promise<T> {
+  protected async _post<T extends SchemeType<S>>(body: Omit<T, K | E | 'created'>): Promise<T> {
     this._assertPutAndPostBody(body);
 
     const { data } = await this.fetch.post<T>(this._getCRUDEndpoint(), body);
@@ -37,7 +37,7 @@ class CrudResource<S extends BaseSchema, K extends keyof SchemeType<S>> extends 
     return data;
   }
 
-  protected async _put<T extends SchemeType<S>>(id: SchemeType<S>[K], body: Omit<T, K | 'created'>): Promise<T> {
+  protected async _put<T extends SchemeType<S>>(id: SchemeType<S>[K], body: Omit<T, K | E | 'created'>): Promise<T> {
     this._assertModelID(id);
     this._assertPutAndPostBody(body);
 
