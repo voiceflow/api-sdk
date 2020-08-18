@@ -9,6 +9,7 @@ export const SVersionPlatformDataSettings = s.object();
 export const SVersionPlatformDataPublishing = s.object();
 
 export const SVersionPlatformData = s.object({
+  platform: s.string(),
   settings: SVersionPlatformDataSettings,
   publishing: SVersionPlatformDataPublishing,
 });
@@ -25,6 +26,7 @@ export const SVersion = s.object({
 });
 
 export type VersionPlatformData<S extends UnknownRecord = UnknownRecord, P extends UnknownRecord = UnknownRecord> = {
+  platform: string;
   settings: S;
   publishing: P;
 };
