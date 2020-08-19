@@ -44,7 +44,6 @@ class VersionResource extends CrudResource<typeof SVersion['schema'], ModelKey, 
 
   public async updatePlatformData<P extends VersionPlatformData>(id: VersionID, body: Partial<P>): Promise<Partial<P>> {
     this._assertModelID(id);
-    // s.assert(body, this._partialPlatformData);
 
     const { data } = await this.fetch.patch<P>(`${this._getCRUDEndpoint(id)}/platform`, body);
 
