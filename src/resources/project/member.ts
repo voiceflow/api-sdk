@@ -8,7 +8,7 @@ import BaseResource from '../base';
 export const modelIDKey = 'creatorID';
 export type ModelIDKey = typeof modelIDKey;
 
-class MemberResource extends BaseResource<typeof SMember['schema'], ModelIDKey, ModelIDKey> {
+class MemberResource extends BaseResource<typeof SMember['schema'], ModelIDKey> {
   constructor(fetch: Fetch, parentResourceEndpoint: string) {
     super({
       fetch,

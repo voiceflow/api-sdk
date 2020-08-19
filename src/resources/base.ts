@@ -1,10 +1,10 @@
 import * as s from 'superstruct';
 
 import type Fetch from '@/fetch';
-import type { BaseSchema, PutPostStruct, SchemeType } from '@/types';
+import type { BaseSchema, PutPostSchemeType, PutPostStruct, SchemeType } from '@/types';
 import { createPutAndPostStruct } from '@/utils';
 
-class BaseResource<S extends BaseSchema, K extends keyof SchemeType<S>, E extends keyof SchemeType<S>> {
+class BaseResource<S extends BaseSchema, K extends keyof SchemeType<S>, E extends keyof SchemeType<S> = never> {
   protected readonly fetch: Fetch;
 
   private readonly modelIDKey: K;
@@ -55,7 +55,7 @@ class BaseResource<S extends BaseSchema, K extends keyof SchemeType<S>, E extend
     s.assert(body, this.patchStruct);
   }
 
-  protected _assertPutAndPostBody(body: Omit<SchemeType<S>, K | E | 'created'>): void {
+  protected _assertPutAndPostBody(body: PutPostSchemeType<S, K, E>): void {
     s.assert(body, this.putAndPostStruct);
   }
 }

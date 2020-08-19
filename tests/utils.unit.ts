@@ -14,11 +14,10 @@ describe('utils', () => {
 
     const postAndPutStruct = createPutAndPostStruct(struct.schema, 'id', []);
 
-    expect(postAndPutStruct.schema).to.eql({
-      key: struct.schema.key,
-      field1: struct.schema.field1,
-      field2: struct.schema.field2,
-    });
+    expect(postAndPutStruct.schema.id.type).to.eql('number?');
+    expect(postAndPutStruct.schema.key).to.eql(struct.schema.key);
+    expect(postAndPutStruct.schema.field1).to.eql(struct.schema.field1);
+    expect(postAndPutStruct.schema.field2).to.eql(struct.schema.field2);
   });
 
   it('createPutAndPostStruct with created', () => {
@@ -50,9 +49,8 @@ describe('utils', () => {
 
     const postAndPutStruct = createPutAndPostStruct(struct.schema, 'id', []);
 
-    expect(postAndPutStruct.schema).to.eql({
-      key: struct.schema.key,
-    });
+    expect(postAndPutStruct.schema.id.type).to.eql('number?');
+    expect(postAndPutStruct.schema.key).to.eql(struct.schema.key);
   });
 
   it('dynamicObject', () => {

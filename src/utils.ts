@@ -24,7 +24,7 @@ export const dynamicObject = <S extends BaseSchema>(schema: S): s.Struct<Record<
   return Struct;
 };
 
-export const createPutAndPostStruct = <S extends BaseSchema, K extends keyof SchemeType<S>, E extends keyof SchemeType<S>>(
+export const createPutAndPostStruct = <S extends BaseSchema, K extends keyof SchemeType<S>, E extends keyof SchemeType<S> = never>(
   schema: S,
   idKey: K,
   excludedKeys: E[],
@@ -34,7 +34,9 @@ export const createPutAndPostStruct = <S extends BaseSchema, K extends keyof Sch
     .filter((key) => key !== idKey && key !== 'created' && !excludedKeys.includes(key as E))
     .reduce<Omit<S, K | E | 'created'>>((acc, key) => Object.assign(acc, { [key]: schema[key] }), {} as Omit<S, K | E | 'created'>);
 
-  return isDynamic ? dynamicObject(createScheme) : s.object(createScheme);
+  return isDynamic
+    ? dynamicObject({ ...createScheme, [idKey]: s.optional(schema[idKey as string]) })
+    : (s.object({ ...createScheme, [idKey]: s.optional(schema[idKey as string]) }) as any);
 };
 
 export const getWindow = () => {

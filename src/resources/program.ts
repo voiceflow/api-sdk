@@ -8,7 +8,7 @@ const ENDPOINT = 'programs';
 export const modelIDKey = 'id';
 export type ModelIDKey = typeof modelIDKey;
 
-class ProgramResource extends CrudResource<typeof SProgram['schema'], ModelIDKey, ModelIDKey> {
+class ProgramResource extends CrudResource<typeof SProgram['schema'], ModelIDKey> {
   constructor(fetch: Fetch) {
     super({
       fetch,

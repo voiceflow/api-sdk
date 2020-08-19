@@ -11,7 +11,7 @@ export const ENDPOINT = 'projects';
 export const modelIDKey = '_id';
 export type ModelIDKey = typeof modelIDKey;
 
-class ProjectResource extends CrudResource<typeof SProject['schema'], ModelIDKey, ModelIDKey> {
+class ProjectResource extends CrudResource<typeof SProject['schema'], ModelIDKey> {
   public member: MemberResource;
 
   constructor(fetch: Fetch) {
