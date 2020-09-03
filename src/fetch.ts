@@ -4,6 +4,7 @@ type FetchOptions = {
   clientKey: string;
   apiEndpoint: string;
   authorization?: string;
+  globalHeaders?: Record<string, string>;
 };
 
 type FetchReturnType<T> = {
@@ -16,12 +17,16 @@ export type PathVariables = Record<string, string | number>;
 class Fetch {
   private axios: AxiosInstance;
 
-  constructor({ clientKey, apiEndpoint, authorization }: FetchOptions) {
+  constructor({ clientKey, apiEndpoint, authorization, globalHeaders }: FetchOptions) {
     const config: AxiosRequestConfig = {
       baseURL: apiEndpoint.endsWith('/') ? apiEndpoint : `${apiEndpoint}/`,
       headers: { clientKey },
       withCredentials: true,
     };
+
+    if (globalHeaders) {
+      Object.assign(config.headers, globalHeaders);
+    }
 
     if (authorization) {
       config.headers.authorization = authorization;
@@ -70,6 +75,17 @@ class Fetch {
     const { data, status } = await this.axios.patch<T>(url, { path, value, pathVariables });
 
     return { data, status };
+  }
+
+  public initWithOptions({ headers }: { headers: Record<string, string> }) {
+    const { clientKey, authorization, ...globalHeaders } = this.axios.defaults.headers as Record<string, string>;
+
+    return new Fetch({
+      clientKey,
+      apiEndpoint: this.axios.defaults.baseURL!,
+      authorization,
+      globalHeaders: { ...globalHeaders, ...headers },
+    });
   }
 }
 

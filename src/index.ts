@@ -13,6 +13,7 @@ export const SOptions = s.object({
 
 export const SGenerateClientOptions = s.type({
   authorization: s.string(),
+  globalHeaders: s.optional(s.record(s.string(), s.string())),
 });
 
 class ApiSDK {
@@ -34,13 +35,14 @@ class ApiSDK {
     });
   }
 
-  public generateClient({ authorization }: s.StructType<typeof SGenerateClientOptions>): Client {
+  public generateClient({ authorization, globalHeaders }: s.StructType<typeof SGenerateClientOptions>): Client {
     s.assert({ authorization }, SGenerateClientOptions);
 
     return new Client({
       clientKey: this.clientKey,
       apiEndpoint: this.apiEndpoint,
       authorization,
+      globalHeaders,
     });
   }
 }
