@@ -20,6 +20,7 @@ const createFetch = (apiEndpoint = '', options?: FetchConfig) => {
     put: sinon.stub(),
     patch: sinon.stub(),
     delete: sinon.stub(),
+    defaults: {},
   };
 
   const axiosCreate = sinon.stub(baseAxios, 'create').returns(axiosInstance as any);
@@ -172,7 +173,7 @@ describe('Fetch', () => {
     expect(data).to.eql(RESPONSE_DATA);
   });
 
-  it('.initWithConfig', async () => {
+  it('.initWithOptions', async () => {
     const { fetch, axiosCreate } = createFetch('https://example.com', { headers: { key: 'val' } });
 
     Object.assign(fetch['axios'], {
@@ -186,7 +187,7 @@ describe('Fetch', () => {
       },
     });
 
-    const fetch2 = fetch.initWithConfig({ headers: { key2: 'val2' } });
+    const fetch2 = fetch.initWithOptions({ headers: { key2: 'val2' } });
 
     expect(fetch2).to.be.instanceOf(Fetch);
     expect(axiosCreate.callCount).to.eql(2);
@@ -202,5 +203,32 @@ describe('Fetch', () => {
         withCredentials: true,
       },
     ]);
+  });
+
+  it('.setOptions', async () => {
+    const { fetch } = createFetch('https://example.com', { headers: { key: 'val' } });
+
+    Object.assign(fetch['axios'], {
+      defaults: {
+        baseURL: 'https://example.com/',
+        headers: {
+          key: 'val',
+          clientKey: CLIENT_KEY,
+          authorization: AUTHORIZATION,
+        },
+      },
+    });
+
+    fetch.setOptions({ headers: { key2: 'val2' } });
+
+    expect(fetch['axios'].defaults).to.eql({
+      baseURL: 'https://example.com/',
+      headers: {
+        key: 'val',
+        key2: 'val2',
+        clientKey: CLIENT_KEY,
+        authorization: AUTHORIZATION,
+      },
+    });
   });
 });

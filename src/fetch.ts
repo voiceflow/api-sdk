@@ -24,13 +24,9 @@ class Fetch {
   constructor({ options, clientKey, apiEndpoint, authorization }: FetchOptions) {
     const config: AxiosRequestConfig = {
       baseURL: apiEndpoint.endsWith('/') ? apiEndpoint : `${apiEndpoint}/`,
-      headers: { ...options?.headers, clientKey },
+      headers: { ...options?.headers, clientKey, authorization },
       withCredentials: true,
     };
-
-    if (authorization) {
-      config.headers.authorization = authorization;
-    }
 
     this.axios = axios.create(config);
   }
@@ -77,7 +73,18 @@ class Fetch {
     return { data, status };
   }
 
-  public initWithConfig({ headers }: FetchConfig) {
+  public setOptions({ headers }: FetchConfig) {
+    const { clientKey, authorization, ...defaultHeaders } = this.axios.defaults.headers;
+
+    this.axios.defaults.headers = {
+      ...defaultHeaders,
+      ...headers,
+      clientKey,
+      authorization,
+    };
+  }
+
+  public initWithOptions({ headers }: FetchConfig) {
     const { clientKey, authorization, ...defaultHeaders } = this.axios.defaults.headers;
 
     return new Fetch({
