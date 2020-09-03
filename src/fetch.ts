@@ -5,7 +5,7 @@ export type FetchConfig = {
 };
 
 type FetchOptions = {
-  config?: FetchConfig;
+  options?: FetchConfig;
   clientKey: string;
   apiEndpoint: string;
   authorization?: string;
@@ -21,10 +21,10 @@ export type PathVariables = Record<string, string | number>;
 class Fetch {
   private axios: AxiosInstance;
 
-  constructor({ config: fetchConfig, clientKey, apiEndpoint, authorization }: FetchOptions) {
+  constructor({ options, clientKey, apiEndpoint, authorization }: FetchOptions) {
     const config: AxiosRequestConfig = {
       baseURL: apiEndpoint.endsWith('/') ? apiEndpoint : `${apiEndpoint}/`,
-      headers: { ...fetchConfig?.headers, clientKey },
+      headers: { ...options?.headers, clientKey },
       withCredentials: true,
     };
 
@@ -81,7 +81,7 @@ class Fetch {
     const { clientKey, authorization, ...defaultHeaders } = this.axios.defaults.headers;
 
     return new Fetch({
-      config: { headers: { ...defaultHeaders, ...headers } },
+      options: { headers: { ...defaultHeaders, ...headers } },
       clientKey,
       apiEndpoint: this.axios.defaults.baseURL!,
       authorization,

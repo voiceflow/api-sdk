@@ -13,7 +13,7 @@ const RESPONSE_DATA = {
   status: 200,
 };
 
-const createFetch = (apiEndpoint = '', fetchConfig?: FetchConfig) => {
+const createFetch = (apiEndpoint = '', options?: FetchConfig) => {
   const axiosInstance = {
     get: sinon.stub(),
     post: sinon.stub(),
@@ -25,7 +25,7 @@ const createFetch = (apiEndpoint = '', fetchConfig?: FetchConfig) => {
   const axiosCreate = sinon.stub(baseAxios, 'create').returns(axiosInstance as any);
 
   const fetch = new Fetch({
-    config: fetchConfig,
+    options,
     clientKey: '123qwe123',
     apiEndpoint,
     authorization: 'qwe123qwe',
