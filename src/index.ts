@@ -1,6 +1,7 @@
 import * as s from 'superstruct';
 
 import { Client, PublicClient } from '@/client';
+import type { FetchConfig } from '@/fetch';
 
 export type { Client, PublicClient } from '@/client';
 export type { UnknownRecord, ArrayElement, Flatten } from '@/types';
@@ -13,7 +14,6 @@ export const SOptions = s.object({
 
 export const SGenerateClientOptions = s.type({
   authorization: s.string(),
-  globalHeaders: s.optional(s.record(s.string(), s.string())),
 });
 
 class ApiSDK {
@@ -35,14 +35,14 @@ class ApiSDK {
     });
   }
 
-  public generateClient({ authorization, globalHeaders }: s.StructType<typeof SGenerateClientOptions>): Client {
+  public generateClient({ authorization, fetchConfig }: s.StructType<typeof SGenerateClientOptions> & { fetchConfig?: FetchConfig }): Client {
     s.assert({ authorization }, SGenerateClientOptions);
 
     return new Client({
       clientKey: this.clientKey,
+      fetchConfig,
       apiEndpoint: this.apiEndpoint,
       authorization,
-      globalHeaders,
     });
   }
 }

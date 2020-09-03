@@ -1,10 +1,14 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
+export type FetchConfig = {
+  headers?: Record<string, string>;
+};
+
 type FetchOptions = {
+  config?: FetchConfig;
   clientKey: string;
   apiEndpoint: string;
   authorization?: string;
-  globalHeaders?: Record<string, string>;
 };
 
 type FetchReturnType<T> = {
@@ -17,16 +21,12 @@ export type PathVariables = Record<string, string | number>;
 class Fetch {
   private axios: AxiosInstance;
 
-  constructor({ clientKey, apiEndpoint, authorization, globalHeaders }: FetchOptions) {
+  constructor({ config: fetchConfig, clientKey, apiEndpoint, authorization }: FetchOptions) {
     const config: AxiosRequestConfig = {
       baseURL: apiEndpoint.endsWith('/') ? apiEndpoint : `${apiEndpoint}/`,
-      headers: { clientKey },
+      headers: { ...fetchConfig?.headers, clientKey },
       withCredentials: true,
     };
-
-    if (globalHeaders) {
-      Object.assign(config.headers, globalHeaders);
-    }
 
     if (authorization) {
       config.headers.authorization = authorization;
@@ -77,14 +77,14 @@ class Fetch {
     return { data, status };
   }
 
-  public initWithOptions({ headers }: { headers: Record<string, string> }) {
-    const { clientKey, authorization, ...globalHeaders } = this.axios.defaults.headers as Record<string, string>;
+  public initWithConfig({ headers }: FetchConfig) {
+    const { clientKey, authorization, ...defaultHeaders } = this.axios.defaults.headers;
 
     return new Fetch({
+      config: { headers: { ...defaultHeaders, ...headers } },
       clientKey,
       apiEndpoint: this.axios.defaults.baseURL!,
       authorization,
-      globalHeaders: { ...globalHeaders, ...headers },
     });
   }
 }

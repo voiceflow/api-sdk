@@ -1,10 +1,10 @@
-import Fetch from '@/fetch';
+import Fetch, { FetchConfig } from '@/fetch';
 import { Diagram, Program, Project, User, Version } from '@/resources';
 
 export type ClientOptions = {
   clientKey: string;
   apiEndpoint: string;
-  globalHeaders?: Record<string, string>;
+  fetchConfig?: FetchConfig;
   authorization?: string;
 };
 
@@ -17,8 +17,8 @@ export class PublicClient {
 
   public diagram: Diagram;
 
-  constructor({ clientKey, apiEndpoint, authorization, globalHeaders }: ClientOptions) {
-    const fetch = new Fetch({ clientKey, apiEndpoint, authorization, globalHeaders });
+  constructor({ clientKey, apiEndpoint, authorization, fetchConfig }: ClientOptions) {
+    const fetch = new Fetch({ clientKey, apiEndpoint, authorization, config: fetchConfig });
 
     this.project = new Project(fetch);
     this.version = new Version(fetch);
@@ -30,8 +30,8 @@ export class PublicClient {
 export class Client extends PublicClient {
   public user: User;
 
-  constructor({ clientKey, apiEndpoint, authorization, globalHeaders }: Omit<ClientOptions, 'authorization'> & { authorization: string }) {
-    super({ clientKey, apiEndpoint, authorization, globalHeaders });
+  constructor({ clientKey, apiEndpoint, authorization, fetchConfig }: Omit<ClientOptions, 'authorization'> & { authorization: string }) {
+    super({ clientKey, apiEndpoint, authorization, fetchConfig });
 
     this.user = new User(authorization);
   }

@@ -4,7 +4,7 @@ import baseAxios from 'axios';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import Fetch from '@/fetch';
+import Fetch, { FetchConfig } from '@/fetch';
 
 const CLIENT_KEY = '123qwe123';
 const AUTHORIZATION = 'qwe123qwe';
@@ -13,7 +13,7 @@ const RESPONSE_DATA = {
   status: 200,
 };
 
-const createFetch = (apiEndpoint = '', globalHeaders?: Record<string, string>) => {
+const createFetch = (apiEndpoint = '', fetchConfig?: FetchConfig) => {
   const axiosInstance = {
     get: sinon.stub(),
     post: sinon.stub(),
@@ -25,10 +25,10 @@ const createFetch = (apiEndpoint = '', globalHeaders?: Record<string, string>) =
   const axiosCreate = sinon.stub(baseAxios, 'create').returns(axiosInstance as any);
 
   const fetch = new Fetch({
+    config: fetchConfig,
     clientKey: '123qwe123',
     apiEndpoint,
     authorization: 'qwe123qwe',
-    globalHeaders,
   });
 
   return { fetch, axiosCreate, axiosInstance };
@@ -72,7 +72,7 @@ describe('Fetch', () => {
   });
 
   it('.constructor with globalHeaders', () => {
-    const { axiosCreate } = createFetch('https://example.com', { key: 'val' });
+    const { axiosCreate } = createFetch('https://example.com', { headers: { key: 'val' } });
 
     expect(axiosCreate.callCount).to.eql(1);
     expect(axiosCreate.args[0]).to.eql([
@@ -172,8 +172,8 @@ describe('Fetch', () => {
     expect(data).to.eql(RESPONSE_DATA);
   });
 
-  it('.initWithOptions', async () => {
-    const { fetch, axiosCreate } = createFetch('https://example.com', { key: 'val' });
+  it('.initWithConfig', async () => {
+    const { fetch, axiosCreate } = createFetch('https://example.com', { headers: { key: 'val' } });
 
     Object.assign(fetch['axios'], {
       defaults: {
@@ -186,8 +186,9 @@ describe('Fetch', () => {
       },
     });
 
-    fetch.initWithOptions({ headers: { key2: 'val2' } });
+    const fetch2 = fetch.initWithConfig({ headers: { key2: 'val2' } });
 
+    expect(fetch2).to.be.instanceOf(Fetch);
     expect(axiosCreate.callCount).to.eql(2);
     expect(axiosCreate.args[1]).to.eql([
       {
