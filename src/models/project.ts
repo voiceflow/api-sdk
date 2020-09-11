@@ -3,13 +3,10 @@ import * as s from 'superstruct';
 import { Member, SMember } from './member';
 import { BasePlatformData, SBasePlatformData, SCreatorID, SName, SPlatform, SProjectID, STeamID, STimestamp, SVersionID } from './shared';
 
-export const SProjectModuleID = s.number();
-export type SProjectModuleID = s.StructType<typeof SProjectModuleID>;
-
 export const SProject = s.object({
   _id: SProjectID,
   teamID: STeamID,
-  moduleID: s.optional(SProjectModuleID),
+  image: s.optional(s.string()),
   creatorID: SCreatorID,
 
   name: SName,
