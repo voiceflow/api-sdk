@@ -6,10 +6,10 @@ import { BasePlatformData, SBasePlatformData, SCreatorID, SName, SPlatform, SPro
 export const SProject = s.object({
   _id: SProjectID,
   teamID: STeamID,
-  image: s.optional(s.string()),
   creatorID: SCreatorID,
 
   name: SName,
+  image: s.optional(s.string()),
   members: s.array(SMember),
   created: STimestamp,
   platform: SPlatform,
