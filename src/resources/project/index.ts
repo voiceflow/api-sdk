@@ -1,7 +1,7 @@
 import * as s from 'superstruct';
 
 import type Fetch from '@/fetch';
-import { BasePlatformData, Project, ProjectID, ProjectPrivacy, SProject, SWorkspaceID, Version, VersionPlatformData, WorkspaceID } from '@/models';
+import { BasePlatformData, Project, ProjectID, SProject, SWorkspaceID, Version, VersionPlatformData, WorkspaceID } from '@/models';
 
 import CrudResource from '../crud';
 import { ENDPOINT } from './constants';
