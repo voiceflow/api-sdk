@@ -1,7 +1,7 @@
 import * as s from 'superstruct';
 
 import { Member, SMember } from './member';
-import { BasePlatformData, SBasePlatformData, SCreatorID, SName, SPlatform, SProjectID, STeamID, STimestamp, SVersionID } from './shared';
+import { BasePlatformData, SBasePlatformData, SCreatorID, SName, SPlatform, SProjectID, STeamID, SVersionID } from './shared';
 
 export enum ProjectPrivacy {
   PUBLIC = 'public',
