@@ -16,7 +16,6 @@ export const SProject = s.object({
   name: SName,
   image: s.optional(s.string()),
   members: s.array(SMember),
-  created: STimestamp,
   platform: SPlatform,
   devVersion: s.optional(SVersionID),
   platformData: SBasePlatformData,
