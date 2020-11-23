@@ -73,7 +73,7 @@ export const SVersion = s.object({
 
   name: SName,
   variables: s.array(SVariable),
-  prototype: SVersionPrototype,
+  prototype: s.optional(SVersionPrototype),
   platformData: SVersionPlatformData,
   rootDiagramID: SDiagramID,
 });
