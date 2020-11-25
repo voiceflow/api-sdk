@@ -49,7 +49,7 @@ export type IntentInput = s.StructType<typeof SIntentInput>;
 export const SIntentSlotDialog = s.object({
   prompt: SIntentInput,
   confirm: SIntentInput,
-  utterances: SIntentInput,
+  utterances: s.array(SIntentInput),
   confirmEnabled: s.boolean(),
 });
 export type IntentSlotDialog = s.StructType<typeof SIntentSlotDialog>;
