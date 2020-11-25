@@ -65,7 +65,7 @@ export const SIntent = s.object({
   key: s.string(),
   name: s.string(),
   slots: s.optional(s.array(SIntentSlot)),
-  inputs: SIntentInput,
+  inputs: s.array(SIntentInput),
 });
 export type Intent = s.StructType<typeof SIntent>;
 
