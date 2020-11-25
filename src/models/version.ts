@@ -79,6 +79,6 @@ export const SVersion = s.object({
 });
 
 export type Version<P extends VersionPlatformData, C extends Command = Command> = s.StructType<typeof SVersion> & {
-  prototype: VersionPrototype<C>;
+  prototype?: VersionPrototype<C>;
   platformData: P;
 };
