@@ -17,10 +17,11 @@ export const SVersionPlatformData = dynamicObject({
   publishing: SVersionPlatformDataPublishing,
 });
 
-export type VersionPlatformData<S extends UnknownRecord = UnknownRecord, P extends UnknownRecord = UnknownRecord> = UnknownRecord & {
-  settings: S;
-  publishing: P;
-};
+export type VersionPlatformData<S extends UnknownRecord = UnknownRecord, P extends UnknownRecord = UnknownRecord> = UnknownRecord &
+  Pick<s.StructType<typeof SVersionPlatformData>, 'slots' | 'intents'> & {
+    settings: S;
+    publishing: P;
+  };
 
 export const SVersionPrototypeStackFrame = s.partial({
   nodeID: s.optional(s.nullable(s.string())),
