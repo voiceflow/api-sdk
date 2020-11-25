@@ -79,7 +79,10 @@ export const SVersion = s.object({
   rootDiagramID: SDiagramID,
 });
 
-export type Version<P extends VersionPlatformData, C extends Command = Command> = s.StructType<typeof SVersion> & {
+export type Version<P extends VersionPlatformData, C extends Command = Command> = Omit<
+  s.StructType<typeof SVersion>,
+  'prototype' | 'platformData'
+> & {
   prototype?: VersionPrototype<C>;
   platformData: P;
 };
