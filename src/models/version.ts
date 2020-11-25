@@ -10,6 +10,7 @@ export const SVersionPlatformDataSettings = s.object();
 
 export const SVersionPlatformDataPublishing = s.object();
 
+// TODO: do not forget to add new field to the StrictVersionPlatformData union
 export const SVersionPlatformData = dynamicObject({
   slots: s.array(SSlot),
   intents: s.array(SIntent),
@@ -17,11 +18,16 @@ export const SVersionPlatformData = dynamicObject({
   publishing: SVersionPlatformDataPublishing,
 });
 
+export type StrictVersionPlatformData<S extends UnknownRecord = UnknownRecord, P extends UnknownRecord = UnknownRecord> = Pick<
+  s.StructType<typeof SVersionPlatformData>,
+  'slots' | 'intents'
+> & {
+  settings: S;
+  publishing: P;
+};
+
 export type VersionPlatformData<S extends UnknownRecord = UnknownRecord, P extends UnknownRecord = UnknownRecord> = UnknownRecord &
-  Pick<s.StructType<typeof SVersionPlatformData>, 'slots' | 'intents'> & {
-    settings: S;
-    publishing: P;
-  };
+  StrictVersionPlatformData<S, P>;
 
 export const SVersionPrototypeStackFrame = s.partial({
   nodeID: s.optional(s.nullable(s.string())),
