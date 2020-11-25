@@ -47,8 +47,8 @@ export const SIntentInput = s.object({
 export type IntentInput = s.StructType<typeof SIntentInput>;
 
 export const SIntentSlotDialog = s.object({
-  prompt: SIntentInput,
-  confirm: SIntentInput,
+  prompt: s.array(SIntentInput),
+  confirm: s.array(SIntentInput),
   utterances: s.array(SIntentInput),
   confirmEnabled: s.boolean(),
 });
