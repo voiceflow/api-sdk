@@ -110,7 +110,7 @@ class VersionResource extends CrudResource<typeof SVersion['schema'], ModelKey, 
     options?: { programs: true }
   ): Promise<{ project: P; version: V; diagrams: Record<string, D>; programs: Record<string, PM> }>;
 
-  public async export<P extends Project<any, any>, V extends Version<any>, D extends Diagram>(id: VersionID, options?: { programs: boolean }) {
+  public async export<P extends Project<any, any>, V extends Version<any>, D extends Diagram>(id: VersionID, options?: { programs?: boolean }) {
     this._assertModelID(id);
 
     const { data } = await this.fetch.get<{ project: P; version: V; diagrams: Record<string, D> }>(
