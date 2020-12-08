@@ -35,7 +35,7 @@ export const SProject = s.object({
   members: s.array(SMember),
   privacy: s.optional(s.enums([ProjectPrivacy.PRIVATE, ProjectPrivacy.PUBLIC])),
   platform: SPlatform,
-  prototype: SProjectPrototype,
+  prototype: s.optional(SProjectPrototype),
   devVersion: s.optional(SVersionID),
   liveVersion: s.optional(SVersionID),
   platformData: SBasePlatformData,
