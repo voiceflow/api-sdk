@@ -84,10 +84,10 @@ class ProjectResource extends CrudResource<typeof SProject['schema'], ModelIDKey
     return data;
   }
 
-  public async getPrototype<L extends string = string>(id: ProjectID) {
+  public async getPrototype(id: ProjectID) {
     this._assertModelID(id);
 
-    const { data } = await this.fetch.get<ProjectPrototype<L>>(`${this._getCRUDEndpoint(id)}/prototype`);
+    const { data } = await this.fetch.get<ProjectPrototype>(`${this._getCRUDEndpoint(id)}/prototype`);
 
     return data;
   }

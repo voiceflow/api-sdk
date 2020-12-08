@@ -53,6 +53,15 @@ export type VersionPrototypeContext<C extends Command = Command> = Omit<s.Struct
   stack?: VersionPrototypeStackFrame<C>[];
 };
 
+export const SVersionPrototypeData = s.object({
+  name: s.string(),
+  locales: s.array(s.string()),
+});
+
+export type VersionPrototypeData<L extends string> = Omit<s.StructType<typeof SVersionPrototypeData>, 'locales'> & {
+  locales: L[];
+};
+
 export const SVersionPrototypeModel = s.object({
   slots: s.array(SSlot),
   intents: s.array(SIntent),
@@ -61,13 +70,17 @@ export const SVersionPrototypeModel = s.object({
 export type VersionPrototypeModel = s.StructType<typeof SVersionPrototypeModel>;
 
 export const SVersionPrototype = s.object({
-  data: s.object(), // TODO: add types
+  data: SVersionPrototypeData,
   model: SVersionPrototypeModel,
   context: SVersionPrototypeContext,
   settings: s.object(), // TODO: add types
 });
 
-export type VersionPrototype<C extends Command = Command> = Omit<s.StructType<typeof SVersionPrototype>, 'context'> & {
+export type VersionPrototype<C extends Command = Command, L extends string = string> = Omit<
+  s.StructType<typeof SVersionPrototype>,
+  'context' | 'data'
+> & {
+  data: VersionPrototypeData<L>;
   context: VersionPrototypeContext<C>;
 };
 

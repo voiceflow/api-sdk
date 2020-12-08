@@ -3,22 +3,11 @@ import * as s from 'superstruct';
 import { Member, SMember } from './member';
 import { BasePlatformData, SBasePlatformData, SCreatorID, SName, SPlatform, SProjectID, STeamID, SVersionID } from './shared';
 
-export const SProjectPrototypeData = s.object({
-  name: s.string(),
-  locales: s.array(s.string()),
-});
-
-export type ProjectPrototypeData<L extends string> = Omit<s.StructType<typeof SProjectPrototypeData>, 'locales'> & {
-  locales: L[];
-};
-
 export const SProjectPrototype = s.object({
-  data: SProjectPrototypeData,
+  data: s.object(),
 });
 
-export type ProjectPrototype<L extends string> = Omit<s.StructType<typeof SProjectPrototypeData>, 'data'> & {
-  data: ProjectPrototypeData<L>;
-};
+export type ProjectPrototype = s.StructType<typeof SProjectPrototype>;
 
 export enum ProjectPrivacy {
   PUBLIC = 'public',
@@ -41,11 +30,7 @@ export const SProject = s.object({
   platformData: SBasePlatformData,
 });
 
-export type Project<P extends BasePlatformData, M extends BasePlatformData, L extends string = string> = Omit<
-  s.StructType<typeof SProject>,
-  'platformData' | 'members' | 'prototype'
-> & {
+export type Project<P extends BasePlatformData, M extends BasePlatformData> = Omit<s.StructType<typeof SProject>, 'platformData' | 'members'> & {
   members: Member<M>[];
-  prototype?: ProjectPrototype<L>;
   platformData: P;
 };
