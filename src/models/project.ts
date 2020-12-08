@@ -46,6 +46,6 @@ export type Project<P extends BasePlatformData, M extends BasePlatformData, L ex
   'platformData' | 'members' | 'prototype'
 > & {
   members: Member<M>[];
-  prototype: ProjectPrototype<L>;
+  prototype?: ProjectPrototype<L>;
   platformData: P;
 };
