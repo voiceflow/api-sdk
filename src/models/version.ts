@@ -53,20 +53,18 @@ export type VersionPrototypeContext<C extends Command = Command> = Omit<s.Struct
   stack?: VersionPrototypeStackFrame<C>[];
 };
 
-export const SVersionPrototypeModel = s.union([
-  s.object({
-    slots: s.array(SSlot),
-    intents: s.array(SIntent),
-  }),
-  s.object({ endpoint: s.string() }),
-]);
+export const SVersionPrototypeModel = s.object({
+  slots: s.array(SSlot),
+  intents: s.array(SIntent),
+});
 
 export type VersionPrototypeModel = s.StructType<typeof SVersionPrototypeModel>;
 
 export const SVersionPrototype = s.object({
+  data: s.object(), // TODO: add types
   model: SVersionPrototypeModel,
   context: SVersionPrototypeContext,
-  settings: s.object(),
+  settings: s.object(), // TODO: add types
 });
 
 export type VersionPrototype<C extends Command = Command> = Omit<s.StructType<typeof SVersionPrototype>, 'context'> & {
