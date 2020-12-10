@@ -26,7 +26,7 @@ export const SProjectPrototype = s.object({
 });
 
 export type ProjectPrototype = Omit<s.StructType<typeof SProjectPrototype>, 'nlp'> & {
-  nlp: ProjectPrototypeNLP;
+  nlp?: ProjectPrototypeNLP;
 };
 
 export enum ProjectPrivacy {
