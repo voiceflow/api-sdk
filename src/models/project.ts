@@ -10,7 +10,6 @@ export enum ProjectPrototypeNLPType {
 export const SProjectPrototypeLuis = s.object({
   type: s.enums([ProjectPrototypeNLPType.LUIS]),
   appID: s.string(),
-  version: s.number(),
 });
 
 type ProjectPrototypeNLPBase<T extends string, S extends s.Struct<any>> = { type: T } & Omit<s.StructType<S>, 'type'>;
