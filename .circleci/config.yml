@@ -15,6 +15,7 @@ jobs:
       - vfcommon/unit_tests
       - codecov/upload:
           file: nyc_coverage/lcov.info
+          flags: unit
 
 workflows:
   test-and-release:
