@@ -94,6 +94,7 @@
     "build": "npm run clean && ttsc --project ./tsconfig.build.json",
     "clean": "rimraf build",
     "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "yarn lint --fix",
     "lint:quiet": "yarn lint --quiet",
     "test": "yarn test:unit",
     "test:unit": "NODE_ENV=test nyc ts-mocha --paths",
