@@ -53,10 +53,10 @@ export type VersionPrototypeContext<C extends Command = Command> = Omit<s.Struct
 };
 
 export const SVersionPrototypeSettings = s.object({
-  layout: s.string(),
-  brandColor: s.string(),
-  branchImage: s.string(),
-  avatar: s.string(),
+  layout: s.optional(s.string()),
+  brandColor: s.optional(s.string()),
+  branchImage: s.optional(s.string()),
+  avatar: s.optional(s.string()),
 });
 
 export const SVersionPrototypeData = s.object({
