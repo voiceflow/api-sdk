@@ -52,12 +52,20 @@ export type VersionPrototypeContext<C extends Command = Command> = Omit<s.Struct
   stack?: VersionPrototypeStackFrame<C>[];
 };
 
+export const SVersionPrototypeSettings = s.object({
+  layout: s.string(),
+  brandColor: s.string(),
+  branchImage: s.string(),
+  avatar: s.string(),
+});
+
 export const SVersionPrototypeData = s.object({
   name: s.string(),
   locales: s.array(s.string()),
+  settings: SVersionPrototypeSettings,
 });
 
-export type VersionPrototypeData<L extends string> = Omit<s.StructType<typeof SVersionPrototypeData>, 'locales'> & {
+export type VersionPrototypeData<L extends string = string> = Omit<s.StructType<typeof SVersionPrototypeData>, 'locales'> & {
   locales: L[];
 };
 

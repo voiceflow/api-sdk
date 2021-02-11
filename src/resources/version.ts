@@ -1,7 +1,7 @@
 import * as s from 'superstruct';
 
 import Fetch from '@/fetch';
-import { Diagram, Program, Project, SVersion, Version, VersionID, VersionPlatformData, VersionPrototype } from '@/models';
+import { Diagram, Program, Project, SVersion, Version, VersionID, VersionPlatformData, VersionPrototype, VersionPrototypeData } from '@/models';
 
 import CrudResource from './crud';
 
@@ -133,6 +133,23 @@ class VersionResource extends CrudResource<typeof SVersion['schema'], ModelKey, 
     this._assertModelID(id);
 
     const { data } = await this.fetch.get<VersionPrototype>(`${this._getCRUDEndpoint(id)}/prototype`);
+
+    return data;
+  }
+
+  public async updatePrototypeData<P extends VersionPrototypeData>(id: VersionID, body: Partial<P>): Promise<P> {
+    this._assertModelID(id);
+
+    const { data } = await this.fetch.patch<P>(`${this._getCRUDEndpoint(id)}/prototype`, body);
+
+    return data;
+  }
+
+  public async updatePrototypeSettings<P extends VersionPrototypeData['settings']>(id: VersionID, body: Partial<P>): Promise<Partial<P>> {
+    this._assertModelID(id);
+    s.assert(body, SVersion.schema.prototype.schema.settings);
+
+    const { data } = await this.fetch.patch<P>(`${this._getCRUDEndpoint(id)}/prototype`, body, { path: 'settings' });
 
     return data;
   }
