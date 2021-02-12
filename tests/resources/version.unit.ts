@@ -324,7 +324,7 @@ describe('VersionResource', () => {
     expect(assert.args[0]).to.eql(['1', resource['struct'].schema._id]);
   });
 
-  it('.updatePrototypeData', async () => {
+  it('.updatePrototype', async () => {
     const { fetch, assert, resource } = createClient();
 
     fetch.patch.resolves({ data: RESPONSE_DATA });
@@ -335,7 +335,7 @@ describe('VersionResource', () => {
       },
     };
 
-    const data = await resource.updatePrototypeData('1', body);
+    const data = await resource.updatePrototype('1', body);
 
     expect(fetch.patch.callCount).to.eql(1);
     expect(fetch.patch.args[0]).to.eql(['versions/1/prototype', body]);
