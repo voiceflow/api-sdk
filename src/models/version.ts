@@ -57,7 +57,7 @@ export const SVersionPrototypeData = s.object({
   locales: s.array(s.string()),
 });
 
-export type VersionPrototypeData<L extends string = string> = Omit<s.StructType<typeof SVersionPrototypeData>, 'locales'> & {
+export type VersionPrototypeData<L extends string> = Omit<s.StructType<typeof SVersionPrototypeData>, 'locales'> & {
   locales: L[];
 };
 
