@@ -1,7 +1,7 @@
 import * as s from 'superstruct';
 
 import Fetch from '@/fetch';
-import { Diagram, Program, Project, SVersion, Version, VersionID, VersionPlatformData, VersionPrototype, VersionPrototypeData } from '@/models';
+import { Diagram, Program, Project, SVersion, Version, VersionID, VersionPlatformData, VersionPrototype } from '@/models';
 
 import CrudResource from './crud';
 
