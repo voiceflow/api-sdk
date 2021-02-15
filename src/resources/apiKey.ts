@@ -23,8 +23,8 @@ class APIKeyResource extends CrudResource<typeof SAPIkey['schema'], ModelIDKey, 
     return super._getByID<APIKey>(id);
   }
 
-  public async create(workspaceID: string, body: Partial<APIKey>): Promise<APIKey> {
-    return super._post({ ...body, workspaceID } as APIKey);
+  public async create(workspaceID: string, body: Partial<APIKey>): Promise<APIKey & { APIKey: string }> {
+    return (await super._post({ ...body, workspaceID } as any)) as APIKey & { APIKey: string };
   }
 
   public async update(id: string, body: Pick<APIKey, 'name' | 'permissions' | 'scopes' | 'data'>): Promise<Partial<APIKey>> {
