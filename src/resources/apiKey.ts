@@ -17,6 +17,9 @@ class APIKeyResource extends CrudResource<typeof SAPIkey['schema'], ModelIDKey, 
       modelIDKey,
       resourceEndpoint,
     });
+
+    // create and update have different requirements, skip validation for now, backend validates
+    this._assertPutAndPostBody = () => null;
   }
 
   public async get(id: string) {
