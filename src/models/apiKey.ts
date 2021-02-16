@@ -5,8 +5,6 @@ import { SAPIKeyID, SCreatorID, SWorkspaceID } from './shared';
 export const SAPIkey = s.object({
   _id: SAPIKeyID,
 
-  // this will never show up on the client side
-  // key: s.string(),
   workspaceID: SWorkspaceID,
   creatorID: SCreatorID,
 
