@@ -18,14 +18,6 @@ describe('Client', () => {
   it('.constructor', () => {
     const client = createClient();
     expect(Object.values(client).every((resource) => CLIENT_RESOURCES.some((Resource) => resource instanceof Resource))).to.eql(true);
-
-    const noAuthClient = createClient('');
-    expect(Object.values(noAuthClient).every((resource) => CLIENT_RESOURCES.some((Resource) => resource instanceof Resource))).to.eql(true);
-    expect(noAuthClient.user).to.eql(undefined);
-
-    const apiKeyClient = createClient('VF.ApiKey');
-    expect(Object.values(apiKeyClient).every((resource) => CLIENT_RESOURCES.some((Resource) => resource instanceof Resource))).to.eql(true);
-    expect(apiKeyClient.user).to.eql(undefined);
   });
 
   it('.project', () => {

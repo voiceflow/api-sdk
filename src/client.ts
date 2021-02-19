@@ -36,17 +36,11 @@ export class PublicClient {
 }
 
 export class Client extends PublicClient {
-  public user?: User;
-
-  isAPIKey(authorization: string): boolean {
-    return authorization.startsWith('VF.');
-  }
+  public user: User;
 
   constructor({ clientKey, apiEndpoint, authorization, options }: Omit<ClientOptions, 'authorization'> & { authorization: string }) {
     super({ clientKey, apiEndpoint, authorization, options });
 
-    if (authorization && !this.isAPIKey(authorization)) {
-      this.user = new User(authorization);
-    }
+    this.user = new User(authorization);
   }
 }
