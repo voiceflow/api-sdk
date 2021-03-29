@@ -129,10 +129,10 @@ class VersionResource extends CrudResource<typeof SVersion['schema'], ModelKey, 
     return newProject;
   }
 
-  public async getPrototype(id: VersionID, body: { sanitizePassword?: boolean } = {}) {
+  public async getPrototype(id: VersionID, body: { isPublic?: boolean } = {}) {
     this._assertModelID(id);
 
-    const query = body.sanitizePassword ? `?sanitizePassword=${body.sanitizePassword}` : '';
+    const query = body.isPublic ? `?isPublic=${body.isPublic}` : '';
     const { data } = await this.fetch.get<VersionPrototype>(`${this._getCRUDEndpoint(id)}/prototype${query}`);
 
     return data;
